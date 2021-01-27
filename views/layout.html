@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>{{title}}</title>
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="stylesheet" href="/main.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="menu-wrap">
+      <div class="menu">
+        <a id="home" href="/" class="menu-btn">홈</a>
+        <a id="about" href="/about" class="menu-btn">소개</a>
+        <a id="board" href="/board" class="menu-btn">게시판</a>
+        <a id="gallery" href="/gallery" class="menu-btn">사진 갤러리</a>
+      </div>
+    </div>
+    <div class="profile-wrap">
+      <div class="profile">
+        {% if user and user.id %}
+        <div class="user-name">{{user.name + '님 반가워요!'}}</div>
+        <input id="my-id" type="hidden" value="{{user.id}}">
+        <a id="logout" href="/auth/logout" class="btn">로그아웃</a>
+        <a id="msgbox" href="{{'/msg/' + user.id}}" class="btn">메시지함</a>
+        {% else %}
+        <form id="login-form" action="/auth/login" method="post">
+          <div class="input-group">
+            <label for="email">이메일</label>
+            <input id="email" type="email" name="email" required autofocus>
+          </div>
+          <div class="input-group">
+            <label for="password">비밀번호</label>
+            <input id="password" type="password" name="password" required>
+          </div>
+          <a id="join" href="/join" class="btn">회원가입</a>
+          <button id="login" type="submit" class="btn">로그인</button>
+        </form>
+        {% endif %}
+      </div>
+      {% if users %}
+      <div style="overflow:auto" class="userlist">
+        <form id="user-zone" action="/msg" method="get">
+          {% for man in users %}
+          <div class="user-info">
+            <div class="user_item">{{man.name}}</div>
+            <div class="send_btn" data-id="{{man._id}}">메시지</div>
+          </div>
+          {% endfor %}
+        </form>
+      </div>
+      {% endif %}
+
+    </div>
+
+    {% block content %}
+    {% endblock %}
+  </div>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script>
+    window.onload = () => {
+      if (new URL(location.href).searchParams.get('loginError')) {
+        alert(new URL(location.href).searchParams.get('loginError'));
+      }
+    };
+    function addBtnEvent(e) {
+      location.href = '/msg/send/' + e.target.dataset.id;
+    }
+    document.querySelectorAll('.send_btn').forEach(function (btn) {
+      btn.addEventListener('click', addBtnEvent);
+    });
+
+  </script>
+  {% block script %}
+  {% endblock %}
+</body>
+
+</html>

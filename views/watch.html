@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="page-container">
+    <div class="board-zone">
+        <form id="watch-form" action="/gallery/exhibit" method="post">
+            <input type="hidden" value="{{photo._id}}" name="id">
+            <div class="photo-infos">
+                <div class="photo-writer">작성자 : {{photo.name}}</div>
+                <div class="photo-date">
+                    작성일 : {{photo.createdAt.getFullYear()}}년{{(photo.createdAt.getMonth()+1)}}월{{photo.createdAt.getDate()}}일
+                </div>
+                {% if verified %}
+                <div class="photo-buttons">
+                    <a id="delete-btn" href="/gallery/delete/{{photo._id}}" class="btn2">삭제</a>
+                    <button id="modify-btn" type="submit" class="btn2">수정</button>
+                </div>
+                {% else %}
+                {% endif %}
+            </div>
+            <div id="photo-content"><img src="{{photo.imageUrl}}" width="500px"></div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="page-container">
+    <div class="search_bar">
+        <form id="search-form" action="/gallery/search">
+            <input id="search-input" type="text" name="search" placeholder="해시태그로 검색해보세요.">
+            <button class="search-btn">검색</button>
+        </form>
+    </div>
+    <div  style="overflow:auto" class="gallery-zone">
+        <div class="gallery-bar">
+            <a id="write-btn" href="/gallery/exhibit" class="btn">전시하기</a>
+        </div>
+        <div class="selection_image">
+            {% for photo in photos %}
+            <div class="photo" data-id="{{photo._id}}">
+                <div class="overlay" data-id="{{photo._id}}"></div>
+                <img src="{{photo.imageUrl}}" />
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+    function addBtnEvent(e) {
+        location.href = '/gallery/' + e.target.dataset.id;
+    }
+    document.querySelectorAll('.photo').forEach(function (btn) {
+        btn.addEventListener('click', addBtnEvent);
+    });
+
+    window.onload = () => {
+        if (new URL(location.href).searchParams.get('error')) {
+            alert('이미 존재하는 이메일입니다.');
+        }
+    };
+</script>
+{% endblock %}

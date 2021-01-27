@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="page-container">
+    <div class="board-zone">
+        <form id="write-form" action="/board/finish" method="post">
+            <input type="hidden" value="{{post._id}}" name="id">
+            <div class="input-group">
+                <label for="write-title">제목</label>
+                {% if post %}
+                <input id="write-title" type="title" value="{{post.title}}" name="title" required></div>
+                {% else %}
+                <input id="write-title" type="title" name="title" required></div>
+                {% endif %}
+            <div class="input-group">    
+                {% if post %}
+                <textarea id="twit" name="content" maxlength="2000">{{post.content}}</textarea></div>
+                {% else %}
+                <textarea id="twit" name="content" maxlength="2000"></textarea></div>
+                {% endif %}
+            <button id="written-btn" type="submit" class="btn">등록</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

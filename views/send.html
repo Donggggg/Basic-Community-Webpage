@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="page-container">
+    <div class="board-zone">
+        <form id="write-form" action="/msg/send" method="post">
+            <input type="hidden" value="{{sender._id}}" name="senderId">
+            <input type="hidden" value="{{receiver._id}}" name="receiverId">
+            <input type="hidden" value="{{sender.name}}" name="senderName">
+            <input type="hidden" value="{{receiver.name}}" name="receiverName">
+            <div class="input-group">
+                <textarea id="twit" name="content" maxlength="1000"></textarea>
+            </div>
+            <button id="written-btn" type="submit" class="btn">전송</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

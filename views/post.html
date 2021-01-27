@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="page-container">
+    <div class="board-zone">
+        <form id="post-form" action="/board/write" method="post">
+            <input type="hidden" value="{{post._id}}" name="id">
+            <div id="post-title">{{post.title}}</div>
+            <div class="post-infos">
+                <div class="post-writer">글쓴이: {{post.name}}</div>
+                <div class="post-date">
+                    {{post.createdAt.getFullYear()}}년{{(post.createdAt.getMonth()+1)}}월{{post.createdAt.getDate()}}일
+                    {{post.createdAt.getHours()}}시{{post.createdAt.getMinutes()}}분</div>
+            </div>
+            <pre id="post-content">{{post.content}}</pre>
+            {% if verified %}
+            <div class="post-buttons">
+                <a id="delete-btn" href="/board/delete/{{post._id}}" class="btn2">삭제</a>
+                <button id="modify-btn" type="submit" class="btn2">수정</button>
+            </div>
+            {% else %}
+            {% endif %}
+        </form>
+    </div>
+</div>
+{% endblock %}

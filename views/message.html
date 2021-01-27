@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="messageBox">
+    {% for message in messages %}
+    <div class="message">
+        <pre class="msg_content">{{message.content}}</pre>
+        <div class="msg_bar">
+            <div class="msg_sender">보낸 사람 : {{message.senderName}}  </div>
+            <div class="msg_sentAt"> {{message.sentAt.getFullYear()}}년 {{(message.sentAt.getMonth()+1)}}월 {{message.sentAt.getDate()}}일 
+                {{message.sentAt.getHours()}}시 {{message.sentAt.getMinutes()}}분 </div>
+            <a id="trash" href="/msg/delete/{{message._id}}">삭제</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="page-container">
+    <div class="search_bar">
+        <form id="search-form" action="/board/search">
+            <select id= "search-standard" name="standard">
+                <option value="" selected="selected">검색 기준</option>
+                <option value="name">작성자</option>
+                <option value="content">글내용</option>
+                <option value="hashtag">해시태그</option>
+            </select>
+            <input id="search-input" type="text" name="search" placeholder="검색할 내용을 입력하세요.">
+            <button class="search-btn">검색</button>
+        </form>
+    </div>
+    <div class="timeline">
+        <form id="post-list" action="/board/write" method="get">
+            <div class="board_bar">
+                <div class="board_menu title">제목</div>
+                <div class="board_menu author">작성자</div>
+                <div class="board_menu createdAt">작성일</div>
+                <a id="write-btn" href="/board/write" class="btn">글쓰기</a>
+            </div>
+            {% for post in posts %}
+            <div class="posting" data-id="{{post._id}}">
+                <div class="post_item title" data-id="{{post._id}}">{{post.title}}</div>
+                <div class="post_item author" data-id="{{post._id}}">{{post.name}}</div>
+                <div class="post_item createdAt" data-id="{{post._id}}">{{post.createdAt.getFullYear()}}년
+                    {{(post.createdAt.getMonth()+1)}}월 {{post.createdAt.getDate()}}일 </div>
+            </div>
+            {% endfor %}
+        </form>
+    </div>
+    {% endblock %}
+
+    {% block script %}
+    <script>
+        function addBtnEvent(e) {
+            location.href = '/board/' + e.target.dataset.id;
+        }
+        document.querySelectorAll('.posting').forEach(function (btn) {
+            btn.addEventListener('click', addBtnEvent);
+        });
+
+        window.onload = () => {
+            if (new URL(location.href).searchParams.get('error')) {
+                alert('이미 존재하는 이메일입니다.');
+            }
+        };
+    </script>
+    {% endblock %}
